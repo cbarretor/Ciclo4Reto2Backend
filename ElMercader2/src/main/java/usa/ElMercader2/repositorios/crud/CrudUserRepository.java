@@ -15,14 +15,15 @@ import org.springframework.data.mongodb.repository.Query;
  * @author DELL
  */
 public interface CrudUserRepository extends MongoRepository<User, Integer> {
+    
+    //@Query("{email: {&lte: ?0}}")
+    //@Query(value = "Select e from Client e Where e.email = ?1)
+    public Optional<User> findByEmail(String email);    
        
-    @Query(value = "Select e from User e Where e.email = ?1 and e.password = ?2")
+    @Query("{$and : [{email: {$lte: ?0}},{password: {$lte: ?1}}]}")
     public Optional<User> findByEmailandPassword(String email, String password);    
     
-    //@Query(value = "Select e from User e Where e.email = ?1)
-    public Optional<User> findByEmail(String email);
-    
-    //@Query("{id: ?0}")
+    @Query("{id: ?0}")
     public Optional<User> getById(Integer id);    
     
 }
